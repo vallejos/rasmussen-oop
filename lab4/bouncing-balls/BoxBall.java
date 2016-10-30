@@ -2,36 +2,26 @@ import java.awt.*;
 import java.awt.geom.*;
 
 /**
- * Class BouncingBall - a graphical ball that observes the effect of gravity. The ball
- * has the ability to move. Details of movement are determined by the ball itself. It
- * will fall downwards, accelerating with time due to the effect of gravity, and bounce
- * upward again when hitting the ground.
- *
- * This movement can be initiated by repeated calls to the "move" method.
+ * Class BoxBall - a graphical ball that bounces inside a box.
  * 
- * @author Michael Kölling (mik)
- * @author David J. Barnes
- * @author Bruce Quig
+ * @author Leonardo Vallejos
  *
- * @version 2016.02.29
+ * @version 2016.10.30
  */
 
-public class BouncingBall
+public class BoxBall
 {
-    private static final int GRAVITY = 10;  // effect of gravity
-
-    private int ballDegradation = 2;
     private Ellipse2D.Double circle;
     private Color color;
     private int diameter;
     private int xPosition;
     private int yPosition;
-    private final int groundPosition;      // y position of ground
+    private final int width, height;
     private Canvas canvas;
-    private int ySpeed = 1;                // initial downward speed
+    private int xSpeed, ySpeed;
 
     /**
-     * Constructor for objects of class BouncingBall
+     * Constructor for objects of class BoxBall
      *
      * @param xPos  the horizontal coordinate of the ball
      * @param yPos  the vertical coordinate of the ball
@@ -40,15 +30,18 @@ public class BouncingBall
      * @param groundPos  the position of the ground (where the wall will bounce)
      * @param drawingCanvas  the canvas to draw this ball on
      */
-    public BouncingBall(int xPos, int yPos, int ballDiameter, Color ballColor,
-                        int groundPos, Canvas drawingCanvas)
+    public BoxBall(int xPos, int yPos, int ballDiameter, Color ballColor,
+                        int boxHeight, int boxWidth, Canvas drawingCanvas)
     {
         xPosition = xPos;
         yPosition = yPos;
         color = ballColor;
         diameter = ballDiameter;
-        groundPosition = groundPos;
+        height = boxHeight;
+        width = boxWidth;
         canvas = drawingCanvas;
+        xSpeed = 0;
+        ySpeed = 0;
     }
 
     /**
@@ -71,21 +64,17 @@ public class BouncingBall
     /**
      * Move this ball according to its position and speed and redraw.
      **/
-    public void move()
+    public void move(int speedX, int speedY)
     {
         // remove from canvas at the current position
         erase();
-            
-        // compute new position
-        ySpeed += GRAVITY;
-        yPosition += ySpeed;
-        xPosition +=2;
 
-        // check if it has hit the ground
-        if (yPosition >= (groundPosition - diameter) && ySpeed > 0) {
-            yPosition = (int)(groundPosition - diameter);
-            ySpeed = -ySpeed + ballDegradation; 
-        }
+        xSpeed = speedX;
+        ySpeed = speedY;
+        
+        // compute new position
+        yPosition += ySpeed;
+        xPosition += xSpeed;
 
         // draw again at new position
         draw();
@@ -105,5 +94,26 @@ public class BouncingBall
     public int getYPosition()
     {
         return yPosition;
+    }
+
+    /**
+     * return the diameter of this ball
+     */
+    public int getDiameter() {
+        return diameter;
+    }    
+    
+    /**
+     * return X Speed
+     */
+    public int getXSpeed() {
+        return xSpeed;
+    }
+    
+    /**
+     * return Y Speed
+     */
+    public int getYSpeed() {
+        return ySpeed;
     }
 }

@@ -70,7 +70,7 @@ public class Auction
     /**
      * @return list of unsold lots
      */
-    public ArrayList<Lot> getUnsold() {
+        public ArrayList<Lot> getUnsold() {
         ArrayList<Lot> unsold = new ArrayList<>();
 
         for (Lot lot : lots) {
