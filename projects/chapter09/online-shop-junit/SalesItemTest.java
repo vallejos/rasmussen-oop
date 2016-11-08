@@ -26,6 +26,9 @@ public class SalesItemTest
     @Before
     public void setUp()
     {
+        SalesItem salesItem1 = new SalesItem("Java Book", 12345);
+        SalesItem salesItem2 = new SalesItem("Perl Book", 12345);
+        salesItem2.addComment("Fred", "Best book ever!", 5);
     }
 
     /**
@@ -76,7 +79,17 @@ public class SalesItemTest
         SalesItem salesIte1 = new SalesItem("Brain Surgery for Dummies.", 9899);
         assertEquals(true, salesIte1.addComment("Fred", "Great - I perform brain surgery every week now!", 4));
     }
+
+    @Test
+    public void testTwoComments()
+    {
+        SalesItem salesIte1 = new SalesItem("test 2 comments", 120);
+        assertEquals(true, salesIte1.addComment("leo", "this is a comment", 10));
+        assertEquals(true, salesIte1.addComment("Fred", "second comment", 4));
+        assertEquals(2, salesIte1.getNumberOfComments());
+    }
 }
+
 
 
 
